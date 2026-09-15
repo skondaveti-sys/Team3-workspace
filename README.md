@@ -1,11 +1,10 @@
 ## Section 1: Table with Team Members Information
 
 | Name              | GitHub Username |
-|-------------------|-----------------|
+| ----------------- | --------------- |
 | Rachel Gao        | rgao05          |
 | Shritan Kondaveti | skondaveti-sys  |
 | Nitya Vobugari    | nityavobugari18 |
-
 
 ## Section 2: Working Agreement
 
