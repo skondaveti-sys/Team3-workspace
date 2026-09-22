@@ -3,8 +3,13 @@ import express from "express";
 const app = express();
 const PORT = 3000;
 
-// routes
+app.get("/", (req, res) => {
+  res.send("Welcome to the Public Transit Helper");
+});
 
+app.get("/routes", (req, res) => {
+  res.send("Transit routes listing coming soon");
+});
 
 
 
