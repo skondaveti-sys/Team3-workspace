@@ -1,0 +1,11 @@
+# dependencies, rebuilt by npm install
+node_modules/
+
+# secrets and local configuration
+.env
+
+# the file you upload to Gradescope, not part of the project
+github.json
+
+# macOS clutter
+.DS_Store
