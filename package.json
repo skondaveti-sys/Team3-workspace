@@ -1,0 +1,24 @@
+{
+  "name": "team3-workspace",
+  "version": "1.0.0",
+  "description": "| Name              | GitHub Username | | ----------------- | --------------- | | Rachel Gao        | rgao05          | | Shritan Kondaveti | skondaveti-sys  | | Nitya Vobugari    | nityavobugari18 |",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skondaveti-sys/Team3-workspace.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/skondaveti-sys/Team3-workspace/issues"
+  },
+  "homepage": "https://github.com/skondaveti-sys/Team3-workspace#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
