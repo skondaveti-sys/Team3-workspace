@@ -4,6 +4,7 @@
   "description": "| Name              | GitHub Username | | ----------------- | --------------- | | Rachel Gao        | rgao05          | | Shritan Kondaveti | skondaveti-sys  | | Nitya Vobugari    | nityavobugari18 |",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/skondaveti-sys/Team3-workspace#readme",
   "dependencies": {
+    "ejs": "^7.0.2",
     "express": "^5.2.1"
   }
 }
