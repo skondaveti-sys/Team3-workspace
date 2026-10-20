@@ -18,3 +18,42 @@ Our team was thinking of building some sort of public transportation helper. Som
 
 ## Section 4: How to run it
 In order to run our program, you should clone the repository on github, run ```npm install``` to download the neccesary dependencies, and then run ```npm start``` to run the server on your local machine. Visit localhost:3000 to see the home page. *This is subject to change, considering it is not the most accessible for our current target audience.*
+
+## Feature: report an outage
+
+Go to `/outages`. Enter a station and a description of what is not working (for example "Elevator to platform B is out"), next you press "Report outage". The report is sent to the server (`POST /outages`), saved, and appears in the "Reported outages" list on the page without a reload. It is still there after a refresh or a server restart.
+
+If either field is empty, the server answers 400 with "Enter both a station and a description of the problem." and nothing is saved. If the server cannot be reached, the page informs us of that. A malformed request body also gets a 4xx response, and the server keeps running.
+
+Checking trips against reported outages is not built yet.
+
+## System Diagram
+
+```
+Browser: /outages page (views/outages.ejs + public/outages.js)
+  GET /outages                 POST /outages {station, description}
+        |                              |
+        v                              v
+server.js     json parsing, 404, error handler
+        |
+        v
+routes/outages.js                wires paths to controller functions, wrapped in asyncHandler
+        |
+        v
+controllers/outagesController.js reads req, calls the service, sends res (200 render / 201 json / error status)
+        |
+        v
+services/outagesService.js       validation: station and description required (400); uses dtos/outageDto.js
+        |
+        v
+repositories/outagesRepository.js  only file that reads and writes storage
+        |
+        v
+data/outages.json
+```
+
+<!-- Teammates: add your slice's path to this diagram, next to the one I put above. -->
+
+## Design Decisions
+
+Shritan Kondaveti: 

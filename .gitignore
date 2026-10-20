@@ -9,3 +9,6 @@ github.json
 
 # macOS clutter
 .DS_Store
+
+# saved outage reports, created when the app runs
+data/outages.json
