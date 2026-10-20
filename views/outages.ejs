@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+  </head>
+  <body>
+    <main>
+      <h1>Report an outage</h1>
+
+      <form id="outage-form">
+        <label for="station">Station</label>
+        <input id="station" name="station" type="text">
+
+        <label for="description">What is not working?</label>
+        <input id="description" name="description" type="text">
+
+        <button type="submit">Report outage</button>
+        <p id="form-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <h2>Reported outages</h2>
+      <ul id="outages">
+        <% outages.forEach((outage) => { %>
+          <li data-id="<%= outage.id %>"><strong><%= outage.station %></strong>: <%= outage.description %></li>
+        <% }); %>
+      </ul>
+    </main>
+    <script src="/outages.js" defer></script>
+  </body>
+</html>
