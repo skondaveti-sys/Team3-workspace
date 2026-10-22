@@ -14,7 +14,7 @@
 - We will solve disagreements by bringing them up and discussing the problem with one another in a civil manner. Each of us can voice our thoughts on the matter and then as a team come to some sort of compromise where the issue is addressed/solved in a way that everyone agrees seems fit and benefits the project. If the disagreement is still unresolved we can ask an outside party for advice.
 
 ## Section 3: Project Domain
-Our team was thinking of building some sort of public transportation helper. Some of us found that information like cost, time schedules, and routes were not easily accessible. We would have to dig through multiple links online, or read the many confusing signs on public transportation stops to get the information we needed. So this helper can make transit information less confusing to navigate and have all of it in one place. This would benefit other students like us, those who come from a low-income background, and senior citizens. 
+Our team was thinking of building some sort of public transportation helper. Some of us found that information like cost, time schedules, and routes were not easily accessible. We would have to dig through multiple links online, or read the many confusing signs on public transportation stops to get the information we needed. So this helper can make transit information less confusing to navigate and have all of it in one place. This would benefit other students like us, those who come from a low-income background, and senior citizens.
 
 ## Section 4: How to run it
 In order to run our program, you should clone the repository on github, run ```npm install``` to download the neccesary dependencies, and then run ```npm start``` to run the server on your local machine. Visit localhost:3000 to see the home page. *This is subject to change, considering it is not the most accessible for our current target audience.*
@@ -27,7 +27,11 @@ If either field is empty, the server answers 400 with "Enter both a station and 
 
 Checking trips against reported outages is not built yet.
 
-## System Diagram
+## Feature: Allowing User to Input Starting and End Address
+
+This feature allows us to understand where the user is currently and then the destination they want to go to from what they type in. To use this feature, head to the `/addresses` route. There should be a form side by side, one side would allow the user to input the starting location and the other side would allow the user to input their destination. After submitting, the inputted information gets saved onto the addresses.json file.
+
+## System Diagrams
 
 ```
 Browser: /outages page (views/outages.ejs + public/outages.js)
@@ -54,6 +58,10 @@ data/outages.json
 
 <!-- Teammates: add your slice's path to this diagram, next to the one I put above. -->
 
+![System Diagram for Address Feature](images/address-sd.jpg)
+
 ## Design Decisions
 
 Shritan Kondaveti: I created the feature that reports the outages. I made the decision to create a check that makes sure the station and description are filled in is in the service file (outagesService.js), not the controller. The controller simply just passes the form data to the service and sends back whatever the service says. An alternative is to do the check in the controller. That would have been worse because we won't be able to test the rule without faking a request, and any other code that creates an outage would skip the check.
+
+Rachel Gao: For the address feature I placed validations in both the controller layer and the service layer. The reason for this is because in the controller level I wanted to check to make sure the addresses/stations inputted were strings and not coordinates or a bunch of random numbers. This relates to a request being well-formed. Because if the address/station is not even valid or is a request we can't take, it would send an error right away instead of just allowing it to continue to the service layer. This is why I chose not to put all the validation in the service layer even though that could have been an option. Then in the service layer validation relating to business rules were implemented here, including both the start and end addresses being inputted and not empty, and also making sure the user isn't inputting paragraphs. 
