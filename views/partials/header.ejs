@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= locals.title ? locals.title + ' | Accessible Map' : 'Accessible Map' %></title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <p class="site-name">Accessible Map</p>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/addresses" <%- locals.active === 'addresses' ? 'aria-current="page"' : '' %>>Plan a route</a></li>
+        <li><a href="/outages" <%- locals.active === 'outages' ? 'aria-current="page"' : '' %>>Outage reports</a></li>
+      </ul>
+    </nav>
+  </header>
