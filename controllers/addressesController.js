@@ -7,6 +7,10 @@ export const index = async (req, res) => {
 export const create = async (req, res) => {
   const { startAddress, endAddress } = req.body;
 
+  if (typeof startAddress !== 'string' || typeof endAddress !== 'string') {
+      return Err({ status: 400, message: "Starting address and ending address have to be strings, coordinates are not accepted."})
+    }
+
   const result = await addressesService.saveAddresses(startAddress, endAddress);
 
   if (!result.ok) {
