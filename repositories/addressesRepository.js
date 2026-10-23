@@ -8,5 +8,8 @@ export const getAll = async () => {
 };
 
 export const save = async (journey) => {
+  const journeys = await getAll();
+  journeys.push(journey);
+
   await writeFile(DATA_FILE, JSON.stringify(journey, null, 2));
 };
