@@ -1,0 +1,54 @@
+<%- include('partials/header', { title: 'Plan a route', active: 'addresses' }) %>
+
+  <main id="main">
+    <h1>Plan a route</h1>
+    <p>Enter where you are starting and where you want to go.</p>
+
+    <form id="address-form" method="POST" action="/addresses">
+      <div class="field">
+        <label for="startAddress">Start address</label>
+        <input
+          type="text"
+          id="startAddress"
+          name="startAddress"
+          autocomplete="street-address"
+          aria-required="true"
+          value="<%= locals.form ? form.startAddress : '' %>">
+      </div>
+
+      <div class="field">
+        <label for="endAddress">Destination address</label>
+        <input
+          type="text"
+          id="endAddress"
+          name="endAddress"
+          autocomplete="off"
+          aria-required="true"
+          value="<%= locals.form ? form.endAddress : '' %>">
+      </div>
+
+      <button type="submit">Find route</button>
+    </form>
+
+    <div id="message" role="status" aria-live="polite">
+      <% if (locals.error) { %>
+        <p class="error"><%= error %></p>
+      <% } %>
+    </div>
+
+    <% if (locals.result) { %>
+      <section id="result" aria-labelledby="result-heading">
+        <h2 id="result-heading">Your route</h2>
+        <p>From <strong><%= result.start %></strong> to <strong><%= result.end %></strong></p>
+        <% if (Array.isArray(result.steps) && result.steps.length) { %>
+          <ol>
+            <% result.steps.forEach(function (step) { %>
+              <li><%= step %></li>
+            <% }) %>
+          </ol>
+        <% } %>
+      </section>
+    <% } %>
+  </main>
+</body>
+</html>
