@@ -11,5 +11,9 @@ export const create = async (req, res) => {
     res.status(result.error.status).json({ error: result.error.message });
     return;
   }
+  if (req.get('HX-Request')) {
+    res.status(201).render('partials/outage-item', { outage: result.value });
+    return;
+  }
   res.status(201).json(result.value);
 };
