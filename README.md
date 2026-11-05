@@ -62,7 +62,13 @@ data/outages.json
 
 ## Design Decisions
 
+### Sprint 2
 Shritan Kondaveti: I created the feature that reports the outages. I made the decision to create a check that makes sure the station and description are filled in is in the service file (outagesService.js), not the controller. The controller simply just passes the form data to the service and sends back whatever the service says. An alternative is to do the check in the controller. That would have been worse because we won't be able to test the rule without faking a request, and any other code that creates an outage would skip the check.I think what we have is a lot better overall because the service only works with plain data, so the rule can be tested on its own and applies everywhere.
+
+### Sprint 3
+
+Shritan Kondaveti: In this sprint, I wrote Jest tests for our service layer with the repositories mocked using `jest.unstable_mockModule`, following Unit 13, instead of testing against a real MongoDB. Our services, `saveAddresses` and `createOutage`, hold the rules like required fields and the 50-character limit, and they only call the repository through its exported functions therefore a mock can stand in for it. That keeps the suite at about one second and lets it pass with no database running, which is required in this sprint. It also lets a test check that the repository was never called when input is rejected. An alternative would be to run integration tests against a real MongoDB. That would have
+cost us a running database for every test run and slower tests. The tradeoff is that mocked tests can't catch bugs between layers, such as a view reading `_id` when the DTO returns `id`, so we still have to check that by hand in the browser.
 
 Rachel Gao: For the address feature I placed validations in both the controller layer and the service layer. The reason for this is because in the controller level I wanted to check to make sure the addresses/stations inputted were strings and not coordinates or a bunch of random numbers. This relates to a request being well-formed. Because if the address/station is not even valid or is a request we can't take, it would send an error right away instead of just allowing it to continue to the service layer. This is why I chose not to put all the validation in the service layer even though that could have been an option. Then in the service layer validation relating to business rules were implemented here, including both the start and end addresses being inputted and not empty, and also making sure the user isn't inputting paragraphs. 
 
