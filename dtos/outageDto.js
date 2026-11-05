@@ -1,5 +1,5 @@
 export const toOutageDto = (outage) => ({
-  id: outage.id,
+  id: outage._id.toString(),
   station: outage.station,
   description: outage.description,
 });
