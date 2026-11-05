@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,11 @@
   "homepage": "https://github.com/skondaveti-sys/Team3-workspace#readme",
   "dependencies": {
     "ejs": "^7.0.2",
+  
     "express": "^5.2.1",
-    "mongoose": "^9.11.4"
-  }
+  "mongoose": "^9.11.4"
+},
+"devDependencies": {
+  "jest": "^30.5.2"
+}
 }
