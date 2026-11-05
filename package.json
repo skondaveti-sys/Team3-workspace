@@ -21,6 +21,7 @@
   "homepage": "https://github.com/skondaveti-sys/Team3-workspace#readme",
   "dependencies": {
     "ejs": "^7.0.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.11.4"
   }
 }

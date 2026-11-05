@@ -28,7 +28,7 @@ const fetchJSON = async (url, options) => {
 // textContent only, so what someone types is never read as HTML.
 const buildItem = (outage) => {
   const item = document.createElement('li');
-  item.dataset.id = outage.id;
+  item.dataset.id = outage._id;
   const station = document.createElement('strong');
   station.textContent = outage.station;
   item.append(station, `: ${outage.description}`);

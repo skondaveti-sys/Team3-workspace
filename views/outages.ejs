@@ -23,7 +23,7 @@
       <h2>Reported outages</h2>
       <ul id="outages">
         <% outages.forEach((outage) => { %>
-          <li data-id="<%= outage.id %>"><strong><%= outage.station %></strong>: <%= outage.description %></li>
+          <li data-id="<%= outage._id %>"><strong><%= outage.station %></strong>: <%= outage.description %></li>
         <% }); %>
       </ul>
     </main>
