@@ -8,8 +8,9 @@ const message = document.getElementById('message');
 function showMessage(text, isError) {
   message.replaceChildren();
   const p = document.createElement('p');
-  p.className = isError ? 'error' : 'success';
-  p.textContent = text;
+  p.className = isError
+    ? 'rounded-md bg-red-50 px-3 py-2 text-red-700'
+    : 'rounded-md bg-green-50 px-3 py-2 text-green-700';  p.textContent = text;
   message.appendChild(p);
 }
 

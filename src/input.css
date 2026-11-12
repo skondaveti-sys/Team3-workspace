@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Tell Tailwind where our class names live, so the build picks them up. */
+@source "../views";
+@source "../public/app.js";
+
+/* Brand color used for buttons, links and the active nav item. */
+@theme {
+  --color-brand-50: #eef6ff;
+  --color-brand-100: #d9eaff;
+  --color-brand-600: #1d5fd1;
+  --color-brand-700: #174cab;
+  --color-brand-800: #153f8a;
+}
