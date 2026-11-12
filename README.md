@@ -27,7 +27,7 @@ If either field is empty, the server answers 400 with "Enter both a station and 
 Checking trips against reported outages is not built yet.
 
 ## Feature: Allowing User to Input Starting and End Address
-This feature allows us to understand where the user is currently and then the destination they want to go to from what they type in. To use this feature, head to the `/addresses` route. There should be a form side by side, one side would allow the user to input the starting location and the other side would allow the user to input their destination. After submitting, the inputted information gets saved onto the addresses.json file.
+This feature allows us to understand where the user is currently and then the destination they want to go to from what they type in. To use this feature, head to the `/addresses` route. There should be a form side by side, one side would allow the user to input the starting location and the other side would allow the user to input their destination. 
 
 ## System Diagrams
 
