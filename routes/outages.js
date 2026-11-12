@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', asyncHandler(outagesController.index));
 router.post('/', asyncHandler(outagesController.create));
+router.delete('/:id', asyncHandler(outagesController.remove));
 
 export default router;

@@ -1,1 +1,16 @@
-<li data-id="<%= outage.id || outage._id %>"><strong><%= outage.station %></strong>: <%= outage.description %></li>
+<li data-id="<%= outage.id || outage._id %>" class="flex gap-3 rounded-lg border border-slate-200 border-l-4 border-l-amber-500 bg-white p-4 shadow-sm">
+  <span aria-hidden="true" class="mt-0.5 shrink-0 text-amber-600">&#9888;</span>
+  <div class="min-w-0">
+    <strong class="block break-words text-slate-900"><%= outage.station %></strong>
+    <span class="block break-words text-slate-600"><%= outage.description %></span>
+  </div>
+  <button type="button"
+          hx-delete="/outages/<%= outage.id %>"
+          hx-target="closest li"
+          hx-swap="outerHTML"
+          hx-confirm="Delete this outage report?"
+          aria-label="Delete the outage report for <%= outage.station %>"
+          class="ml-auto shrink-0 self-start rounded-md px-2 py-1 text-sm font-medium text-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-red-600">
+    Delete
+  </button>
+</li>
