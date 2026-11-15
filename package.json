@@ -4,6 +4,9 @@
   "description": "| Name              | GitHub Username | | ----------------- | --------------- | | Rachel Gao        | rgao05          | | Shritan Kondaveti | skondaveti-sys  | | Nitya Vobugari    | nityavobugari18 |",
   "main": "index.js",
   "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./public/style.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./public/style.css --watch",
+    "prestart": "npm run build:css",
     "start": "node server.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
@@ -21,11 +24,12 @@
   "homepage": "https://github.com/skondaveti-sys/Team3-workspace#readme",
   "dependencies": {
     "ejs": "^7.0.2",
-  
     "express": "^5.2.1",
-  "mongoose": "^9.11.4"
-},
-"devDependencies": {
-  "jest": "^30.5.2"
-}
+    "mongoose": "^9.11.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "jest": "^30.5.2",
+    "tailwindcss": "^4.3.5"
+  }
 }

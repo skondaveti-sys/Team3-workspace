@@ -20,3 +20,13 @@ export const createOutage = async (data) => {
   if (!result.ok) return result;
   return Ok(toOutageDto(await outagesRepository.create(result.value)));
 };
+
+const looksLikeId = (id) => typeof id === 'string' && /^[a-f0-9]{24}$/i.test(id);
+
+export const deleteOutage = async (id) => {
+  if (!looksLikeId(id) || !(await outagesRepository.findById(id))) {
+    return Err({ status: 404, message: 'That outage report was not found.' });
+  }
+  await outagesRepository.removeById(id);
+  return Ok(null);
+};

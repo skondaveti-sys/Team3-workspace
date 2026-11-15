@@ -5,16 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= locals.title ? locals.title + ' | Public TransitHelper' : 'Public TransitHelper' %></title>
   <link rel="stylesheet" href="/style.css">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
   <script src="/app.js" defer></script>
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to main content</a>
-  <header class="site-header">
-    <p class="site-name">Public TransitHelper</p>
-    <nav aria-label="Main">
-      <ul>
-        <li><a href="/addresses" <%- locals.active === 'addresses' ? 'aria-current="page"' : '' %>>Plan a route</a></li>
-        <li><a href="/outages" <%- locals.active === 'outages' ? 'aria-current="page"' : '' %>>Outage reports</a></li>
-      </ul>
-    </nav>
+<body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
+  <a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-10 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-700 focus:shadow"
+     href="#main">Skip to main content</a>
+
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="flex items-center gap-2 text-lg font-bold text-slate-900">
+        <span aria-hidden="true" class="grid size-8 place-items-center rounded-lg bg-brand-600 text-sm text-white">T</span>
+        Public TransitHelper
+      </p>
+      <nav aria-label="Main">
+        <ul class="flex gap-2 text-sm font-medium">
+          <li>
+            <a href="/addresses"
+               class="block rounded-md px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700"
+               <%- locals.active === 'addresses' ? 'aria-current="page"' : '' %>>Plan a route</a>
+          </li>
+          <li>
+            <a href="/outages"
+               class="block rounded-md px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700"
+               <%- locals.active === 'outages' ? 'aria-current="page"' : '' %>>Outage reports</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>

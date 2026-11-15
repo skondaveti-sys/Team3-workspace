@@ -17,3 +17,12 @@ export const create = async (req, res) => {
   }
   res.status(201).json(result.value);
 };
+
+export const remove = async (req, res) => {
+  const result = await outagesService.deleteOutage(req.params.id);
+  if (!result.ok) {
+    res.status(result.error.status).json({ error: result.error.message });
+    return;
+  }
+  res.status(200).send('');
+};
