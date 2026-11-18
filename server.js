@@ -16,6 +16,9 @@ app.set("views", "views");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Public Transit Helper");
