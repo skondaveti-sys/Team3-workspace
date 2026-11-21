@@ -21,6 +21,9 @@ app.set("views", "views");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev-secret-change-in-production',
