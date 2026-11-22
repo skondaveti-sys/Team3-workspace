@@ -53,9 +53,9 @@ test('createOutage rejects a call with no data at all', async () => {
 
 test('createOutage trims fields and saves a valid outage', async () => {
   repo.create.mockResolvedValue({ station: 'Main St', description: 'No power' });
-  const result = await createOutage({ station: '  Main St ', description: ' No power  ' });
+  const result = await createOutage({ station: '  Main St ', description: ' No power  ' }, { id: 'user1', role: 'member' });
   expect(result.ok).toBe(true);
-  expect(repo.create).toHaveBeenCalledWith({ station: 'Main St', description: 'No power' });
+  expect(repo.create).toHaveBeenCalledWith({ station: 'Main St', description: 'No power', ownerId: 'user1' });
 });
 
 test('listOutages returns what the repository has', async () => {
@@ -64,22 +64,33 @@ test('listOutages returns what the repository has', async () => {
   expect(result).toEqual([]);
   expect(repo.getAll).toHaveBeenCalledTimes(1);
 });
-test('deleteOutage returns 404 when the outage does not exist', async () => {
+
+test('deleteOutage returns 404 when outage does not exist', async () => {
   repo.findById.mockResolvedValue(null);
-
-  const result = await deleteOutage('507f1f77bcf86cd799439011');
-
+  const result = await deleteOutage('507f1f77bcf86cd799439011', { id: 'user1', role: 'member' });
   expect(result.ok).toBe(false);
   expect(result.error.status).toBe(404);
   expect(repo.removeById).not.toHaveBeenCalled();
 });
 
-test('deleteOutage deletes an existing outage', async () => {
-  repo.findById.mockResolvedValue({ _id: '507f1f77bcf86cd799439011' });
-  repo.removeById.mockResolvedValue(undefined);
+test('deleteOutage rejects non-owner with 403', async () => {
+  repo.findById.mockResolvedValue({ ownerId: 'user1' });
+  const result = await deleteOutage('507f1f77bcf86cd799439011', { id: 'user2', role: 'member' });
+  expect(result.ok).toBe(false);
+  expect(result.error.status).toBe(403);
+  expect(repo.removeById).not.toHaveBeenCalled();
+});
 
-  const result = await deleteOutage('507f1f77bcf86cd799439011');
+test('deleteOutage allows the owner', async () => {
+  repo.findById.mockResolvedValue({ ownerId: 'user1' });
+  const result = await deleteOutage('507f1f77bcf86cd799439011', { id: 'user1', role: 'member' });
+  expect(result.ok).toBe(true);
+  expect(repo.removeById).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
+});
 
+test('deleteOutage allows an admin', async () => {
+  repo.findById.mockResolvedValue({ ownerId: 'user1' });
+  const result = await deleteOutage('507f1f77bcf86cd799439011', { id: 'admin1', role: 'admin' });
   expect(result.ok).toBe(true);
   expect(repo.removeById).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
 });
