@@ -16,3 +16,7 @@ I did not use AI in this assignment.
 ## Sprint 3
 
 I did not use AI in this assignment.
+
+## Sprint 4
+
+I did not use AI in this assignment.
