@@ -12,7 +12,7 @@ const startSession = (req, res, userId, next) => {
     req.session.userId = userId;
 
     if (req.body.rememberMe) {
-      cookieOptions.maxAge = 30 * 24 * 60 * 60 * 1000;
+      req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
     }
 
     req.session.save((err) => {
@@ -48,8 +48,12 @@ export const signup = async (req, res, next) => {
     res.status(result.error.status).render('signup', { title: 'Sign up', error: result.error.message, email: req.body.email || '' });
     return;
   }
-  startSession(req, res, result.value.id);
-  res.redirect(303, '/addresses');
+  startSession(req, res, result.value.id, (err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect(303, '/addresses');
+  });
 };
 
 export const login = async (req, res, next) => {
@@ -63,12 +67,17 @@ export const login = async (req, res, next) => {
     return;
   }
 
-  startSession(req, res, result.value.id);
-  if (fromForm(req)) {
-    res.redirect(303, '/addresses');
-    return;
-  }
-  res.status(200).json({ loggedIn: true });
+  startSession(req, res, result.value.id, (err) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (fromForm(req)) {
+      res.redirect(303, '/addresses');
+      return;
+    }
+    res.status(200).json({ loggedIn: true });
+  });
 };
 
 export const logout = (req, res, next) => {
