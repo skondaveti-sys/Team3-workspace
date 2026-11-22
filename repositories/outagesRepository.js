@@ -5,6 +5,11 @@ const outageSchema = new mongoose.Schema(
   {
     station: { type: String, required: true },
     description: { type: String, required: true },
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   { timestamps: true }
 );

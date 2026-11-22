@@ -6,7 +6,7 @@ export const index = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-  const result = await outagesService.createOutage(req.body);
+  const result = await outagesService.createOutage(req.body, req.user);
   if (!result.ok) {
     res.status(result.error.status).json({ error: result.error.message });
     return;
@@ -19,7 +19,7 @@ export const create = async (req, res) => {
 };
 
 export const remove = async (req, res) => {
-  const result = await outagesService.deleteOutage(req.params.id);
+  const result = await outagesService.deleteOutage(req.params.id, req.user);
   if (!result.ok) {
     res.status(result.error.status).json({ error: result.error.message });
     return;
