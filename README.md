@@ -39,6 +39,44 @@ This feature allows us to understand where the user is currently and then the de
 3. HTMX: The "Report outage" form on `/outages` now uses HTMX instead of a fetch call. It sends `hx-post="/outages"`, and the server sends back just the new `<li>` from `views/partials/outage-item.ejs`. To see it, report an outage: it appears in the list without the page reloading. The old `public/outages.js` is gone.
 4. Tailwind: The app is now styled with Tailwind. The input file is `src/input.css`, and `npm start` builds it into `public/style.css` automatically. The layout changes with screen size: on a phone everything stacks, and on a wider screen the two address fields sit side by side (`sm:grid-cols-2`) and the outage form sits next to the list (`lg:grid-cols-5`). To see it, open `/addresses` or `/outages` and make the browser window narrow and then wide.
 
+
+## Sprint 4 changes
+
+### Health check
+
+`GET /health` returns `{"status":"ok"}` with a 200 and `Content-Type:
+application/json`. It is registered before any auth middleware, so it
+needs no login. To check it, run `curl -i http://localhost:3000/health`
+
+
+### Accessibility audit
+
+**Keyboard walkthrough.** I tabbed through `/addresses` and `/outages`
+using only the keyboard. Every link, input and button was reachable in a sensible order. 
+
+**Skip link.** When I first tested, the "Skip to main content" link
+appeared on the first Tab but did nothing, because no element had
+`id="main"`. The Tailwind restyle added `id="main"` to `<main>` on
+`/addresses` and `/outages`, which fixed it. To check: load `/addresses`,
+press Tab once to reveal the link, press Enter, then press Tab again.
+Focus lands on the Start address input which is the first control in the main
+content.
+
+**Labels.** [Every input on /addresses and /outages has a `<label for>`
+matching its `id`; I checked by inspecting each input.
+
+**Focus after updates.** [I submitted a report on /outages with the
+keyboard. Focus landed on: start address.
+
+**Contrast.** I ran Lighthouse's accessibility audit on `/addresses`. It
+scored 100, and the contrast audit passed for resting states. Lighthouse
+does not check hover or focus states, so I measured those by hand in
+DevTools by forcing `:hover` and `:focus` and reading the ratio from the
+color picker: "Find route" button on hover is above 4.5:1, and the skip link
+on focus is is also above 4.5:1. So it passed the check. 
+To verify: open DevTools, select the element, click `:hov` and check the
+state, then click the color swatch in the Styles pane to read the ratio.
+
 ## Design Decisions
 
 ### Sprint 2
