@@ -13,7 +13,7 @@ jest.unstable_mockModule('../dtos/outageDto.js', () => ({
 }));
 
 const repo = await import('../repositories/outagesRepository.js');
-const { createOutage, listOutages } = await import('../services/outagesService.js');
+const { createOutage, listOutages, deleteOutage } = await import('../services/outagesService.js');
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -63,4 +63,23 @@ test('listOutages returns what the repository has', async () => {
   const result = await listOutages();
   expect(result).toEqual([]);
   expect(repo.getAll).toHaveBeenCalledTimes(1);
+});
+test('deleteOutage returns 404 when the outage does not exist', async () => {
+  repo.findById.mockResolvedValue(null);
+
+  const result = await deleteOutage('507f1f77bcf86cd799439011');
+
+  expect(result.ok).toBe(false);
+  expect(result.error.status).toBe(404);
+  expect(repo.removeById).not.toHaveBeenCalled();
+});
+
+test('deleteOutage deletes an existing outage', async () => {
+  repo.findById.mockResolvedValue({ _id: '507f1f77bcf86cd799439011' });
+  repo.removeById.mockResolvedValue(undefined);
+
+  const result = await deleteOutage('507f1f77bcf86cd799439011');
+
+  expect(result.ok).toBe(true);
+  expect(repo.removeById).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
 });
