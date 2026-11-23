@@ -30,6 +30,16 @@
                class="block rounded-md px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 aria-[current=page]:bg-brand-50 aria-[current=page]:text-brand-700"
                <%- locals.active === 'outages' ? 'aria-current="page"' : '' %>>Outage reports</a>
           </li>
+          <% if (locals.currentUser) { %>
+      <span id="signed-in" class="text-gray-700">Signed in as <%= currentUser.email %></span>
+      <%# Logging out changes state, so it is a POST from a form, never a link. %>
+      <form method="POST" action="/logout">
+        <button type="submit" id="logout" class="text-teal-700">Log out</button>
+      </form>
+    <% } else { %>
+      <a href="/login" id="login-link" class="text-teal-700">Log in</a>
+      <a href="/signup" id="signup-link" class="text-teal-700">Sign up</a>
+    <% } %>
         </ul>
       </nav>
     </div>
