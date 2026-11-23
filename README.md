@@ -75,10 +75,10 @@ press Tab once to reveal the link, press Enter, then press Tab again.
 Focus lands on the Start address input which is the first control in the main
 content.
 
-**Labels.** [Every input on /addresses and /outages has a `<label for>`
+**Labels.** Every input on /addresses and /outages has a `<label for>`
 matching its `id`; I checked by inspecting each input.
 
-**Focus after updates.** [I submitted a report on /outages with the
+**Focus after updates.** I submitted a report on /outages with the
 keyboard. Focus landed on: start address.
 
 **Contrast.** I ran Lighthouse's accessibility audit on `/addresses`. It
