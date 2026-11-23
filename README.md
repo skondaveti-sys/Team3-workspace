@@ -15,9 +15,16 @@
 Our team was thinking of building some sort of public transportation helper. Some of us found that information like cost, time schedules, and routes were not easily accessible. We would have to dig through multiple links online, or read the many confusing signs on public transportation stops to get the information we needed. So this helper can make transit information less confusing to navigate and have all of it in one place. This would benefit other students like us, those who come from a low-income background, and senior citizens.
 
 ## Section 4: How to run it
-Begin by cloning the repository, do this by entering `git clone https://github.com/skondaveti-sys/Team3-workspace` into your terminal. Run `npm install` to download the necessary dependencies. Run `npm start` to run the server on your local machine (this first builds the Tailwind stylesheet into `public/style.css` automatically)and open the pop-up onto your browser, visit localhost:3000.
-
-To start up MongoDB, run `dc-up mongo` in your terminal. To check that it is running make sure that when running `dps` it lists `mongo`. Finally connect by typing `mongo-dev` into your terminal. Type `exit` to leave the shell.
+1. Clone the repository: `git clone https://github.com/skondaveti-sys/Team3-workspace`
+2. Make sure you are in the folder: `cd Team3-workspace`
+3. Download all necessary dependencies:  `npm install`
+4. Run `npm start` to run the server on your local machine (this first builds the Tailwind stylesheet into `public/style.css` automatically). After css is built, stop the server, and return back to terminal line.
+5. Follow these next steps:
+  - `cp .env.example .env`
+  - go into the `.env` file and change SECRET_SESSION
+6. Set up/Connect to MongoDB: `dc-up mongo`
+  - To check that it is running make sure that when running `dps` it lists `mongo`. Finally connect by typing `mongo-dev` into your terminal. Type `exit` to leave the shell.
+7. Run `npm start`  to run up the server again, and you should be able to view it on `http://localhost:3000/`
 
 ## Feature: Report an outage
 Go to `/outages`. Enter a station and a description of what is not working (for example "Elevator to platform B is out"), next you press "Report outage". The report is sent to the server (`POST /outages`), saved, and appears in the "Reported outages" list on the page without a reload. It is still there after a refresh or a server restart.
@@ -29,6 +36,13 @@ Checking trips against reported outages is not built yet.
 ## Feature: Allowing User to Input Starting and End Address
 This feature allows us to understand where the user is currently and then the destination they want to go to from what they type in. To use this feature, head to the `/addresses` route. There should be a form side by side, one side would allow the user to input the starting location and the other side would allow the user to input their destination.
 
+## How an Admin is Made?
+- Create an account following the regular sign up instructions (refer below to Authentication part in Sprint 4 changes section if needed).
+- Connect to MongoDB: `mongo-dev`
+- Run this command (change the email to the one used during sign up): `db.users.updateOne({ email: "admin@example.com" }, { $set: { role: "admin" } })`
+- To verify admin change worked: `db.users.findOne({ email: "admin@example.com" })`
+- Exit the shell: `exit`
+
 ## System Diagrams
 
 ![System Diagrams](images/updated-sd.jpg)
@@ -39,15 +53,14 @@ This feature allows us to understand where the user is currently and then the de
 3. HTMX: The "Report outage" form on `/outages` now uses HTMX instead of a fetch call. It sends `hx-post="/outages"`, and the server sends back just the new `<li>` from `views/partials/outage-item.ejs`. To see it, report an outage: it appears in the list without the page reloading. The old `public/outages.js` is gone.
 4. Tailwind: The app is now styled with Tailwind. The input file is `src/input.css`, and `npm start` builds it into `public/style.css` automatically. The layout changes with screen size: on a phone everything stacks, and on a wider screen the two address fields sit side by side (`sm:grid-cols-2`) and the outage form sits next to the list (`lg:grid-cols-5`). To see it, open `/addresses` or `/outages` and make the browser window narrow and then wide.
 
-
-## Sprint 4 changes
+## Sprint 4 Changes
+1. Authentication: Adding this part to the web app allows the user to have a sense of themselves on the actual web app by having an account, being able to sign up for an account and login when revisiting the web app. When an account is made, passwords are hashed as well. The `express-session + connect-mongo` authentication was chosen so that revoking a user's account can be done instantly and not have to wait on an expiration (if token based authentication was done instead). Once you followed the steps in Section 4, to sign up for an account head to this route, `/signup`, input an email that would like to be associated with your account and make a password. To log into your account, head to `/login`, input the same email and password you used when creating the account.
 
 ### Health check
 
 `GET /health` returns `{"status":"ok"}` with a 200 and `Content-Type:
 application/json`. It is registered before any auth middleware, so it
 needs no login. To check it, run `curl -i http://localhost:3000/health`
-
 
 ### Accessibility audit
 
@@ -94,6 +107,9 @@ Rachel Gao: For the schema shape nothing much was weighed. For the addresses we 
 
 Nitya Vobugari: I converted the “Report outage” form to HTMX. The form uses hx-post, and the server returns one `<li>` from the partial views/partials/outage-item.ejs. The alternative was keeping the fetch code in public/outages.js, which built each new list item in the browser with buildItem. I chose HTMX because that form was the only interaction on the page that did a manual fetch and DOM update, and the outages page has no delete or edit to convert instead. Now one EJS partial renders both the rows on page load and each new row, so the markup and the id live in one place. Keeping the old way would have meant a second copy of the list-item markup in JavaScript that had to stay in sync with the template, and the move to MongoDB had already broken that script once when ids changed from id to _id. The tradeoff is that the page now depends on the htmx script loading, and the server has to check the HX-Request header to return a fragment instead of JSON.
 
-### Sprint 4 
-Nitya Vobugari: 
-I chose to implement outage ownership and role authorization inside the `outagesService` rather than placing the authorization logic in the controller. An alternative would have been to check whether the logged-in user owns an outage directly in `outagesController`. However, keeping this rule in the service layer makes the authorization logic part of the application's business rules, so it can be consistently enforced regardless of which controller or route calls the service. This is especially important because both regular members and admins have different deletion permissions. Placing the check only in the controller could lead to duplicated logic or an authorization bypass if another route later calls the service without repeating the check. Although service-layer authorization requires passing the authenticated user into the service, it provides a more centralized and maintainable security boundary.
+### Sprint 4
+Shritan Kondaveti:
+
+Rachel Gao: For the authentication I chose to do an `express session + connect mongo` based one instead of using tokens. This is fitting as our web app was swapped to using MongoDB. While using a token based authentication would mean that any sever that knows the signing secret would be able to verify the token instantly, and scales across many servers, we weighed the cost of using token based authentication more heavily. Express session allows for instant revoking of access while token doesn't. If someone were to use our outage feature to post outages that aren't actually real or posting malicious content, using the session based allows us to revoke their access/account to the web app right away. However using token based authentication would mean they would continued access to the web app until their token expires.
+
+Nitya Vobugari: I chose to implement outage ownership and role authorization inside the `outagesService` rather than placing the authorization logic in the controller. An alternative would have been to check whether the logged-in user owns an outage directly in `outagesController`. However, keeping this rule in the service layer makes the authorization logic part of the application's business rules, so it can be consistently enforced regardless of which controller or route calls the service. This is especially important because both regular members and admins have different deletion permissions. Placing the check only in the controller could lead to duplicated logic or an authorization bypass if another route later calls the service without repeating the check. Although service-layer authorization requires passing the authenticated user into the service, it provides a more centralized and maintainable security boundary.
