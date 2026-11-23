@@ -45,7 +45,7 @@ This feature allows us to understand where the user is currently and then the de
 
 ## System Diagrams
 
-![System Diagrams](images/updated-sd.jpg)
+![System Diagrams](images/sprint-4-sd.jpg)
 
 ## Sprint 3 Changes
 1. Swap to MongoDB: Both the /addresses and /outages feature routes hit MongoDB. Both the repository files changed for these features. Rather than reading and writing to addresses.json and data outages.json, the data can now be more flexibly managed in MongoDB. When swapping from file to real database we ran into the exception. Changes were made to views/outages.ejs and dtos/outageDto.js as previously outage.id was used to refer to the assumed array position however now due to swapping to MongoDB outage.id becomes outage._id in order to get the real MongoDB id.
@@ -65,7 +65,7 @@ needs no login. To check it, run `curl -i http://localhost:3000/health`
 ### Accessibility audit
 
 **Keyboard walkthrough.** I tabbed through `/addresses` and `/outages`
-using only the keyboard. Every link, input and button was reachable in a sensible order. 
+using only the keyboard. Every link, input and button was reachable in a sensible order.
 
 **Skip link.** When I first tested, the "Skip to main content" link
 appeared on the first Tab but did nothing, because no element had
@@ -86,7 +86,7 @@ scored 100, and the contrast audit passed for resting states. Lighthouse
 does not check hover or focus states, so I measured those by hand in
 DevTools by forcing `:hover` and `:focus` and reading the ratio from the
 color picker: "Find route" button on hover is above 4.5:1, and the skip link
-on focus is is also above 4.5:1. So it passed the check. 
+on focus is is also above 4.5:1. So it passed the check.
 To verify: open DevTools, select the element, click `:hov` and check the
 state, then click the color swatch in the Styles pane to read the ratio.
 
